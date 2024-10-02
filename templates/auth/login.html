@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ form.hidden_tag() }} <!-- Para CSRF protection -->
+            <div>
+                {{ form.email.label }} <!-- Rótulo do campo -->
+                {{ form.email(size=32, required=True) }} <!-- Campo de entrada -->
+            </div>
+            <div>
+                {{ form.password.label }} <!-- Rótulo do campo -->
+                {{ form.password(size=32, required=True) }} <!-- Campo de entrada -->
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p>Não tem uma conta? <a href="{{ url_for('auth.register') }}">Registre-se aqui</a></p>
+    </div>
+</body>
+</html>

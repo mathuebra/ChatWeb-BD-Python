@@ -1,6 +1,6 @@
-from flask import render_template, redirect, url_for, flash, session
+from flask import render_template, redirect, url_for, flash, session, request
 from . import auth_bp
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from database import Database
 
 db = Database('/home/mathuebra/VS/DatabasePython/ChatWeb/chatweb')
@@ -9,13 +9,13 @@ db = Database('/home/mathuebra/VS/DatabasePython/ChatWeb/chatweb')
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        username = form.username.data
+        email = form.email.data
         password = form.password.data
 
-        user_id = db.verify_login(username, password)
+        user = db.verify_login(email, password)
         
-        if user is not None:
-            session['USER_ID'] = user_id
+        if user:
+            session['user_id'] = user
             flash('Login realizado!', 'Sucesso!')
             return redirect(url_for('main.home'))
         else:
@@ -23,6 +23,19 @@ def login():
         
     return render_template('auth/login.html', form=form)
 
-@auth_bp.route('/register')
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('auth/register.html')
+    form = RegisterForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        name = form.name.data
+        birthdate = form.birthdate.data
+
+        if db.register(email, password, birthdate, name):
+            flash('Conta criada, você já pode fazer login!', 'Sucesso!')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Erro ao criar conta', 'Falha!')
+
+    return render_template('auth/register.html', form=form)

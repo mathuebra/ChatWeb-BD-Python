@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Registro</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.email.label(text='E-mail') }} {{ form.email(size=32) }}
+            </div>
+            <div>
+                {{ form.password.label(text='Senha') }} {{ form.password(size=32) }}
+            </div>
+            <div>
+                {{ form.name.label(text='Nome') }} {{ form.name(size=32) }}
+            </div>
+            <div>
+                {{ form.birthdate.label(text='Data de Nascimento') }} {{ form.birthdate() }}
+            </div>
+            <div>
+                {{ form.submit(label='Registrar') }}
+            </div>
+        </form>
+        <p>Já tem uma conta? <a href="{{ url_for('auth.login') }}">Faça login aqui.</a></p>
+    </div>
+</body>
+</html>

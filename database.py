@@ -1,5 +1,4 @@
 import sqlite3 as sql
-from .database import database_functions
 
 class Database():
     def __init__(self, database_path):
@@ -81,4 +80,14 @@ class Database():
     
     def verify_login(self, email, password):
         result = self.select('USUARIO', ['ID_USER'], f"EMAIL = ? AND SENHA = ?", [email, password])
-        return result[0] # Retorna elemento ao invés de tupla
+        return result[0][0] # Retorna elemento ao invés da lista de tuplas
+    
+    def register(self, email, password, birthdate, name):
+        try:
+            self.insert('USUARIO', ['NOME', 'STATUS', 'DATA_NASCIMENTO', 'EMAIL', 'SENHA'], [name, None, birthdate, email, password])
+            return True
+        except Exception as e:
+            print(f"Erro: função register -> {e}")
+            return False
+        
+    
