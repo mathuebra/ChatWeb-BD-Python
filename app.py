@@ -5,7 +5,6 @@ from blueprints.main import main_bp
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 app.secret_key='super secret key'
-
 db = Database('/home/mathuebra/VS/DatabasePython/ChatWeb/chatweb')
 
 app.register_blueprint(auth_bp, url_prefix='/auth')
